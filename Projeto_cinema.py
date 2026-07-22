@@ -49,6 +49,47 @@ def carregar_dados(df):
     print("✅ Pipeline ETL concluído! Dados salvos no banco 'cinema.db'.")
     conexao.close()
 
+def analisar_dados():
+    print("\n" + "="*50)
+    print("📊 Executando Queries SQL no Banco de Dados")
+    print("="*50)
+    
+    conexao = sqlite3.connect("cinema.db")
+    
+    # Query 1: Top 5 Filmes mais bem avaliados (Filtrando filmes sem avaliações relevantes)
+    query_top_notas = """
+        SELECT titulo, nota_media 
+        FROM filmes_cartaz 
+        WHERE nota_media > 0
+        ORDER BY nota_media DESC 
+        LIMIT 5;
+    """
+    print("\n🏆 Top 5 Filmes com Maiores Notas:")
+    df_top_notas = pd.read_sql_query(query_top_notas, conexao)
+    print(df_top_notas.to_string(index=False))
+    
+    # Query 2: Os 5 Filmes mais Populares do momento
+    query_populares = """
+        SELECT titulo, popularidade 
+        FROM filmes_cartaz 
+        ORDER BY popularidade DESC 
+        LIMIT 5;
+    """
+    print("\n🔥 Top 5 Filmes Mais Populares:")
+    df_populares = pd.read_sql_query(query_populares, conexao)
+    print(df_populares.to_string(index=False))
+
+    # Query 3: Média geral das notas do catálogo
+    query_media_geral = """
+        SELECT ROUND(AVG(nota_media), 2) AS media_geral_catalogo 
+        FROM filmes_cartaz;
+    """
+    print("\n📈 Média Geral de Nota dos Filmes em Cartaz:")
+    df_media = pd.read_sql_query(query_media_geral, conexao)
+    print(df_media.to_string(index=False))
+
+    conexao.close()
+
 # ==========================================
 # BLOCO DE EXECUÇÃO
 # ==========================================
@@ -62,3 +103,6 @@ if __name__ == "__main__":
         
         # L - Carga
         carregar_dados(filmes_transformados)
+        
+        # A - Análise
+        analisar_dados()
