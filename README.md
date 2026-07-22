@@ -25,18 +25,18 @@ Após o carregamento dos dados no SQLite, o script executa consultas nativas via
    LIMIT 5;
 
 2. **Os 5 Filmes mais Populares do momento:**
-    '''query_populares = """
+    '''sql
+
         SELECT titulo, popularidade 
         FROM filmes_cartaz 
         ORDER BY popularidade DESC 
         LIMIT 5;
-    """
 
-3. **Média geral das notas do catálogo:**
-    query_media_geral = """
+4. **Média geral das notas do catálogo:**
+   '''sql
+   
         SELECT ROUND(AVG(nota_media), 2) AS media_geral_catalogo 
         FROM filmes_cartaz;
-    """
 
 ## 🚀 Como Executar
 1. Clone este repositório.
