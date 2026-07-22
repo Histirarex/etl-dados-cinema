@@ -12,6 +12,18 @@ O fluxo dos dados foi estruturado em três etapas fundamentais usando **Python**
 * **Transform (T):** Uso da biblioteca `pandas` para converter o retorno JSON em um DataFrame estruturado, filtrando apenas as colunas relevantes (título, data de lançamento, popularidade e nota) e padronizando os nomes dos campos.
 * **Load (L):** Persistência dos dados processados em um banco de dados relacional **SQLite** (`cinema.db`), utilizando a funcionalidade nativa do Pandas para inserção SQL.
 
+* ## 📊 Consultas SQL e Análises Realizadas
+
+Após o carregamento dos dados no SQLite, o script executa consultas nativas via SQL para extrair *insights* do catálogo:
+
+1. **Filmes mais bem avaliados:**
+   ```sql
+   SELECT titulo, nota_media 
+   FROM filmes_cartaz 
+   WHERE nota_media > 0
+   ORDER BY nota_media DESC 
+   LIMIT 5;
+
 ## 🚀 Como Executar
 1. Clone este repositório.
 2. Instale as dependências executando: `pip install requests pandas`.
